@@ -366,7 +366,7 @@ private int findUserByEmail(String email) {
 }
 }
 
-public class Main {
+public class Connectup {
 public static void main(String[] args) {
 Connect app = new Connect();
 app.mainMenu();
