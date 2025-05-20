@@ -2,34 +2,29 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ConnectMe {
+    private static Scanner scanner = new Scanner(System.in);
 
+    private static ArrayList<String> usernames = new ArrayList<>();
+    private static ArrayList<String> passwords = new ArrayList<>();
+    private static ArrayList<String> emails = new ArrayList<>();
+    private static ArrayList<String> names = new ArrayList<>();
+    private static ArrayList<String> bios = new ArrayList<>();
+    private static ArrayList<String> dobs = new ArrayList<>();
+    private static ArrayList<String> phones = new ArrayList<>();
+
+    // Admin credentials
     private static final String ADMIN_USERNAME = "admin";
     private static final String ADMIN_PASSWORD = "admin123";
 
-    private ArrayList<String> usernames = new ArrayList<>();
-    private ArrayList<String> passwords = new ArrayList<>();
-    private ArrayList<String> emails = new ArrayList<>();
-    private ArrayList<String> names = new ArrayList<>();
-    private ArrayList<String> bios = new ArrayList<>();
-    private ArrayList<String> dobs = new ArrayList<>();
-    private ArrayList<String> phones = new ArrayList<>();
-
-    private Scanner scanner = new Scanner(System.in);
-
     public static void main(String[] args) {
-        ConnectMe app = new ConnectMe();
-        app.run();
-    }
-
-    public void run() {
+        System.out.println("Welcome to ConnectMe!");
         while (true) {
-            System.out.println("\n===== ConnectMe Social Media =====");
-            System.out.println("1. User Sign Up");
-            System.out.println("2. User Login");
+            System.out.println("\nMain Menu:");
+            System.out.println("1. Sign Up");
+            System.out.println("2. Login");
             System.out.println("3. Admin Login");
             System.out.println("4. Exit");
-            System.out.print("Choose an option: ");
-
+            System.out.print("Enter choice: ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // consume newline
 
@@ -44,15 +39,15 @@ public class ConnectMe {
                     adminLogin();
                     break;
                 case 4:
-                    System.out.println("Thank you for using ConnectMe. Goodbye!");
+                    System.out.println("Exiting ConnectMe. Goodbye!");
                     return;
                 default:
-                    System.out.println("Invalid choice. Please try again.");
+                    System.out.println("Invalid choice!");
             }
         }
     }
 
-    private void userSignUp() {
+    private static void userSignUp() {
         System.out.print("Enter username: ");
         String username = scanner.nextLine();
         if (usernames.contains(username)) {
@@ -66,6 +61,7 @@ public class ConnectMe {
         System.out.print("Enter email: ");
         String email = scanner.nextLine();
 
+        // Add to lists
         usernames.add(username);
         passwords.add(password);
         emails.add(email);
@@ -74,32 +70,58 @@ public class ConnectMe {
         dobs.add("");
         phones.add("");
 
+        int index = usernames.size() - 1;
+
         System.out.println("User registered successfully!");
+
+        // Prompt profile setup
+        System.out.println("Please complete your profile setup.");
+        setupProfile(index);
     }
 
-    private void userLogin() {
+    private static void setupProfile(int index) {
+        System.out.print("Enter your full name: ");
+        String name = scanner.nextLine();
+        names.set(index, name);
+
+        System.out.print("Enter your date of birth (dd-mm-yyyy): ");
+        String dob = scanner.nextLine();
+        dobs.set(index, dob);
+
+        System.out.print("Enter your phone number: ");
+        String phone = scanner.nextLine();
+        phones.set(index, phone);
+
+        System.out.print("Write a short bio: ");
+        String bio = scanner.nextLine();
+        bios.set(index, bio);
+
+        System.out.println("Profile setup complete!");
+    }
+
+    private static void userLogin() {
         System.out.print("Enter username: ");
         String username = scanner.nextLine();
+
         System.out.print("Enter password: ");
         String password = scanner.nextLine();
 
         int index = usernames.indexOf(username);
         if (index != -1 && passwords.get(index).equals(password)) {
-            System.out.println("Login successful. Welcome, " + username + "!");
+            System.out.println("Login successful!");
             userDashboard(index);
         } else {
-            System.out.println("Invalid credentials.");
+            System.out.println("Invalid credentials!");
         }
     }
 
-    private void userDashboard(int index) {
+    private static void userDashboard(int index) {
         while (true) {
-            System.out.println("\n--- User Dashboard ---");
+            System.out.println("\nUser Dashboard:");
             System.out.println("1. View Profile");
             System.out.println("2. Edit Profile");
             System.out.println("3. Logout");
-            System.out.print("Choose an option: ");
-
+            System.out.print("Enter choice: ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // consume newline
 
@@ -114,64 +136,43 @@ public class ConnectMe {
                     System.out.println("Logging out...");
                     return;
                 default:
-                    System.out.println("Invalid choice.");
+                    System.out.println("Invalid choice!");
             }
         }
     }
 
-    private void viewProfile(int index) {
+    private static void viewProfile(int index) {
         System.out.println("\n--- Profile ---");
-        System.out.println("Name: " + names.get(index));
         System.out.println("Username: " + usernames.get(index));
+        System.out.println("Name: " + names.get(index));
         System.out.println("Email: " + emails.get(index));
         System.out.println("DOB: " + dobs.get(index));
         System.out.println("Phone: " + phones.get(index));
         System.out.println("Bio: " + bios.get(index));
     }
 
-    private void setupProfile(int index) {
-        System.out.print("Enter Full Name: ");
-        String name = scanner.nextLine();
-
-        System.out.print("Enter Date of Birth (YYYY-MM-DD): ");
-        String dob = scanner.nextLine();
-
-        System.out.print("Enter Phone Number: ");
-        String phone = scanner.nextLine();
-
-        System.out.print("Enter a short bio: ");
-        String bio = scanner.nextLine();
-
-        names.set(index, name);
-        dobs.set(index, dob);
-        phones.set(index, phone);
-        bios.set(index, bio);
-
-        System.out.println("Profile updated successfully.");
-    }
-
-    private void adminLogin() {
+    private static void adminLogin() {
         System.out.print("Enter admin username: ");
         String username = scanner.nextLine();
+
         System.out.print("Enter admin password: ");
         String password = scanner.nextLine();
 
         if (username.equals(ADMIN_USERNAME) && password.equals(ADMIN_PASSWORD)) {
-            System.out.println("Admin login successful.");
+            System.out.println("Admin login successful!");
             adminDashboard();
         } else {
-            System.out.println("Invalid admin credentials.");
+            System.out.println("Invalid admin credentials!");
         }
     }
 
-    private void adminDashboard() {
+    private static void adminDashboard() {
         while (true) {
-            System.out.println("\n--- Admin Dashboard ---");
+            System.out.println("\nAdmin Dashboard:");
             System.out.println("1. View All Users");
             System.out.println("2. Delete User");
             System.out.println("3. Logout");
-            System.out.print("Choose an option: ");
-
+            System.out.print("Enter choice: ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // consume newline
 
@@ -183,30 +184,28 @@ public class ConnectMe {
                     deleteUser();
                     break;
                 case 3:
-                    System.out.println("Logging out from admin...");
+                    System.out.println("Admin logging out...");
                     return;
                 default:
-                    System.out.println("Invalid choice.");
+                    System.out.println("Invalid choice!");
             }
         }
     }
 
-    private void viewAllUsers() {
+    private static void viewAllUsers() {
         if (usernames.isEmpty()) {
-            System.out.println("No users found.");
+            System.out.println("No users registered.");
             return;
         }
-
-        System.out.println("\n--- All Users ---");
+        System.out.println("\n--- Registered Users ---");
         for (int i = 0; i < usernames.size(); i++) {
             System.out.println((i + 1) + ". Username: " + usernames.get(i) + ", Email: " + emails.get(i));
         }
     }
 
-    private void deleteUser() {
+    private static void deleteUser() {
         System.out.print("Enter username to delete: ");
         String username = scanner.nextLine();
-
         int index = usernames.indexOf(username);
         if (index != -1) {
             usernames.remove(index);
@@ -216,9 +215,9 @@ public class ConnectMe {
             bios.remove(index);
             dobs.remove(index);
             phones.remove(index);
-            System.out.println("User deleted successfully.");
+            System.out.println("User deleted successfully!");
         } else {
-            System.out.println("User not found.");
+            System.out.println("User not found!");
         }
     }
 }
