@@ -24,3 +24,7 @@ ConnectMe is a command-line Java application that allows users to create account
 1. Compile the Java file:
    ```bash
    javac ConnectMe.java
+
+2. Run the Java file:
+   ```bash
+   javac ConnectMe
